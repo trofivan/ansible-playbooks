@@ -1,0 +1,4 @@
+---
+  - hosts: loadbalancers
+    roles:
+      - { role: loadbalancer }
