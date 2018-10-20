@@ -1,0 +1,17 @@
+---
+- name: Install NGINX
+  apt:
+    name: nginx
+    update_cache: yes
+
+- name: Push NGINX configuration
+  copy:
+    src: files/default
+    dest: /etc/nginx/sites-available/default
+    mode: 644
+    owner: root
+    group: root
+  notify:
+    - restart nginx
+
+

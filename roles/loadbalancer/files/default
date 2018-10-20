@@ -1,0 +1,14 @@
+http {
+    upstream myapp.konar.ru {
+        server 10.1.8.41;
+        server 10.1.8.42;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://myapp.konar.ru;
+        }
+    }
+}
