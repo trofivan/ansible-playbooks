@@ -1,23 +1,23 @@
 ---
 - hosts: all
   tasks:
-    - name: Allow passwordless sudo
-      become: yes
-      lineinfile:
-        path: /etc/sudoers
-        state: present
-        regexp: '^%sudo'
-        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
-        validate: 'visudo -cf %s'
-    
-    - name: Ensure a locale ru_RU.UTF-8 exists
-      become: yes
-      locale_gen:
-        name: ru_RU.UTF-8
-        state: present
-    
-    - name: Update all packages to the latest version
-      become: yes
-      apt:
-        update_cache: yes
-        upgrade: dist
+  - name: Allow passwordless sudo
+    become: yes
+    lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '^%sudo'
+      line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
+
+  - name: Ensure a locale ru_RU.UTF-8 exists
+    become: yes
+    locale_gen:
+      name: ru_RU.UTF-8
+      state: present
+
+  - name: Update all packages to the latest version
+    become: yes
+    apt:
+      update_cache: yes
+      upgrade: dist

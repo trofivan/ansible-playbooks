@@ -1,27 +1,27 @@
 ---
 - hosts: loadbalancers
   tasks:
-    - name: Install NGINX
-      become: yes
-      apt:
-        name: nginx
-        update_cache: yes
+  - name: Install NGINX
+    become: yes
+    apt:
+      name: nginx
+      update_cache: yes
 
-    - name: Push NGINX Load Balancer config
-      become: yes
-      copy:
-        src: files/loadbalancerConfig
-        dest: /etc/nginx/sites-available/default
-        mode: 644
-        owner: root
-        group: root
-      notify:
-        - restart nginx
-  
+  - name: Push NGINX Load Balancer config
+    become: yes
+    copy:
+      src: files/loadbalancerConfig
+      dest: /etc/nginx/sites-available/default
+      mode: 644
+      owner: root
+      group: root
+    notify:
+    - restart nginx
+
   handlers:
-    - name: restart nginx
-      become: yes
-      service:
-        name: nginx
-        state: restarted
+  - name: restart nginx
+    become: yes
+    service:
+      name: nginx
+      state: restarted
 
