@@ -1,8 +1,8 @@
 ---
 - hosts: all
+  become: yes
   tasks:
   - name: Allow passwordless sudo
-    become: yes
     lineinfile:
       path: /etc/sudoers
       state: present
@@ -11,18 +11,15 @@
       validate: 'visudo -cf %s'
 
   - name: Ensure a locale ru_RU.UTF-8 exists
-    become: yes
     locale_gen:
       name: ru_RU.UTF-8
       state: present
 
   - name: Update all packages to the latest version
-    become: yes
     apt:
       update_cache: yes
       upgrade: dist
 
   - name: Remove dependencies that are no longer required
-    become: yes
     apt:
       autoremove: yes

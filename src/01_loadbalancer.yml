@@ -1,14 +1,13 @@
 ---
 - hosts: loadbalancers
+  become: yes
   tasks:
   - name: Install NGINX
-    become: yes
     apt:
       name: nginx
       update_cache: yes
 
   - name: Push NGINX Load Balancer config
-    become: yes
     copy:
       src: files/loadbalancerConfig
       dest: /etc/nginx/sites-available/default
@@ -20,7 +19,6 @@
 
   handlers:
   - name: restart nginx
-    become: yes
     service:
       name: nginx
       state: restarted
