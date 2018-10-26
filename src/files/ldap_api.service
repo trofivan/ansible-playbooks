@@ -1,0 +1,16 @@
+[Unit]
+Description='LDAP API'
+
+[Service]
+WorkingDirectory=/var/www/ldap_api
+ExecStart=/usr/bin/node ./bundle/index.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ldap_api
+User=ldap_api
+Group=ldap_api
+Environment='NODE_ENV=production'
+
+[Install]
+WantedBy=multi-user.target

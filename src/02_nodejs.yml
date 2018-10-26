@@ -10,15 +10,21 @@
       url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
       state: present
 
-  - name: Add the NodeJS 10 repos
+  - name: Add the `NodeJS` repos
     apt_repository:
       repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
       state: present
       update_cache: yes
 
-  - name: Install NodeJS
+  - name: Install `NodeJS`
     apt:
       name: nodejs
+      update_cache: yes
+      state: latest
+
+  - name: Install `make`
+    apt:
+      name: make
       update_cache: yes
       state: latest
 
@@ -42,3 +48,13 @@
       path: "/var/www/{{ USER_AND_GROUP_NAME }}"
       owner: "{{ USER_AND_GROUP_NAME }}"
       group: "{{ USER_AND_GROUP_NAME }}"
+
+  - name: Add `ldap_api.service` config
+    copy:
+      src: files/ldap_api.service
+      dest: /etc/systemd/system/
+
+  - name: Enable `ldap_api.service`
+    systemd:
+      name: ldap_api.service
+      enabled: true
