@@ -1,0 +1,33 @@
+---
+- hosts: nodejs
+  become: yes
+  become_user: ldap_api
+  vars:
+    PROJECT_DIR: /var/www/ldap_api
+  tasks:
+  - name: Clone git repo
+    git:
+      repo: https://github.com/trofivan/ldap-address-book-server.git
+      force: yes
+      dest: "{{ PROJECT_DIR }}"
+
+  - name: Install packages based on `package.json`
+    npm:
+      path: "{{ PROJECT_DIR }}"
+
+  - name: Build bundle
+    shell: npm run build
+    args:
+      chdir: "{{ PROJECT_DIR }}"
+
+  - name: Add production config
+    copy:
+      src: files/production.json
+      dest: "{{ PROJECT_DIR }}/config/production.json"
+
+  - name: Restart `ldap_api.service`
+    become_user: root
+    become: yes
+    systemd:
+      name: ldap_api.service
+      state: reloaded
