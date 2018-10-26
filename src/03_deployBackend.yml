@@ -30,4 +30,4 @@
     become: yes
     systemd:
       name: ldap_api.service
-      state: reloaded
+      state: restarted
